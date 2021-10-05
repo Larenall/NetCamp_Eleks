@@ -10,10 +10,12 @@ namespace Application.Common.Interfaces
     {
 
         void StartCheckingForChanges();
-        string SignUserForUpdates(long ChatId, string Symbol);
-        string CancelUpdates(long ChatId, string Symbol);
+        string SubUserForUpdates(long ChatId, string Symbol);
+        Task<string> GetInfoOnCurrency(string Symbol);
+        string UnsubUserFromUpdates(long ChatId, string Symbol);
+        Task<bool> AssetExists(string Symbol);
 
         event Action<long, string> SendMessage;
-
+        Task<string> GetCryptoSymbols();
     }
 }
