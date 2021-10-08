@@ -6,10 +6,9 @@ using System.Net.Http.Json;
 using System.Timers;
 using Application.Common.Interfaces;
 using Domain.DTO;
-using Domain.Common;
-using Infrastructure.Persistance;
 using Domain.Entities;
 using System.Threading.Tasks;
+
 
 namespace Infrastructure
 {
@@ -19,7 +18,7 @@ namespace Infrastructure
 
         Timer timer = new Timer(30000);
 
-        readonly IDbContext db;
+        readonly IDataService db;
 
         List<CryptoPriceDTO> currentPrice = new List<CryptoPriceDTO>() { };
 
@@ -28,7 +27,7 @@ namespace Infrastructure
         public event Action<long, string> SendMessage;
 
 
-        public LunarCrushAPI(IDbContext context)
+        public LunarCrushAPI(IDataService context)
         {
             db = context;
         }
@@ -52,7 +51,7 @@ namespace Infrastructure
                 return;
             }
 
-            AssetDataWrapper response = await Http.GetFromJsonAsync<AssetDataWrapper>($"https://api.lunarcrush.com/v2?data=meta&key={LunarCrushApiKey}&type=price");
+            AssetDataWrapperDTO response = await Http.GetFromJsonAsync<AssetDataWrapperDTO>($"https://api.lunarcrush.com/v2?data=meta&key={LunarCrushApiKey}&type=price");
             response.data.ForEach(el =>
             {
                 if (el.Price is not null)
@@ -84,7 +83,7 @@ namespace Infrastructure
                 {
                     a.ChatIdList.ForEach(chatId =>
                     {
-                        SendMessage(chatId, $"{a.Symbol} is worth  - {a.Price} USD");
+                        SendMessage(chatId, $"{a.Symbol} is worth: {a.Price} USD");
                     });
                 });
             }
@@ -92,12 +91,12 @@ namespace Infrastructure
         }
         public async Task<bool> AssetExists(string Symbol)
         {
-            AssetDataWrapper response = await Http.GetFromJsonAsync<AssetDataWrapper>($"https://api.lunarcrush.com/v2?data=meta&key={LunarCrushApiKey}&type=price");
+            AssetDataWrapperDTO response = await Http.GetFromJsonAsync<AssetDataWrapperDTO>($"https://api.lunarcrush.com/v2?data=meta&key={LunarCrushApiKey}&type=price");
             return response.data.Any(a => a.Symbol == Symbol && a.Price.HasValue);
         }
         async void SetCurerntPrice()
         {
-            AssetDataWrapper response = await Http.GetFromJsonAsync<AssetDataWrapper>($"https://api.lunarcrush.com/v2?data=meta&key={LunarCrushApiKey}&type=price");
+            AssetDataWrapperDTO response = await Http.GetFromJsonAsync<AssetDataWrapperDTO>($"https://api.lunarcrush.com/v2?data=meta&key={LunarCrushApiKey}&type=price");
             response.data.ForEach(el => {
                 if (el.Price is not null)
                 {
@@ -107,7 +106,7 @@ namespace Infrastructure
         }
         public async Task<string> GetCryptoSymbols()
         {
-            AssetDataWrapper response = await Http.GetFromJsonAsync<AssetDataWrapper>($"https://api.lunarcrush.com/v2?data=meta&key={LunarCrushApiKey}&type=price");
+            AssetDataWrapperDTO response = await Http.GetFromJsonAsync<AssetDataWrapperDTO>($"https://api.lunarcrush.com/v2?data=meta&key={LunarCrushApiKey}&type=price");
             var data = response.data.OrderByDescending(el => el.Price).Take(10).ToList();
             string result = "";
             data.ForEach(el => {
@@ -128,7 +127,7 @@ namespace Infrastructure
         }
         public async Task<string> GetInfoOnCurrency(string Symbol)
         {
-            var response = await Http.GetFromJsonAsync<AssetDataWrapper>($"https://api.lunarcrush.com/v2?data=assets&key={LunarCrushApiKey}&symbol={Symbol}");
+            var response = await Http.GetFromJsonAsync<AssetDataWrapperDTO>($"https://api.lunarcrush.com/v2?data=assets&key={LunarCrushApiKey}&symbol={Symbol}");
             var result = response.data[0];
             return
                 $"\nName - {result.Name}\n" +
@@ -143,7 +142,7 @@ namespace Infrastructure
         {
             if (db.UserSubscriptions.Any(e => e.ChatId == ChatId && e.Symbol == Symbol))
             {
-                var subscrToRemove = db.UserSubscriptions.FirstOrDefault(el => el.ChatId == ChatId && el.Symbol == "BTC");
+                var subscrToRemove = db.UserSubscriptions.FirstOrDefault(el => el.ChatId == ChatId && el.Symbol == Symbol);
                 db.UserSubscriptions.Remove(subscrToRemove);
                 db.SaveChanges();
                 return "Ok, no more updates :(";

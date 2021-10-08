@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace Domain.Common
+namespace Domain.DTO
 {
-    public class AssetDataWrapper
+    public class AssetDataWrapperDTO
     {
         public object config { get; set; }
         public object usage { get; set; }
-        public List<AssetData> data { get; set; }
+        public List<AssetDataDTO> data { get; set; }
 
     }
 }

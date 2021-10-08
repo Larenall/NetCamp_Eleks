@@ -46,8 +46,12 @@ namespace UI
                 case "Info":
                     answer = await cryptoAPI.GetInfoOnCurrency(e.CallbackQuery.Message.ReplyToMessage.Text);
                     await client.SendTextMessageAsync(e.CallbackQuery.Message.Chat.Id,answer);
-                    //await client.EditMessageTextAsync(e.CallbackQuery.Message.Chat.Id, e.CallbackQuery.Message.MessageId, answer, replyMarkup: MainMarkup);
-                    //await client.AnswerCallbackQueryAsync(e.CallbackQuery.Id, "No new info yet");
+                    //if (e.CallbackQuery.Message.Text != answer)
+                    //{
+                    //    await client.EditMessageTextAsync(e.CallbackQuery.Message.Chat.Id, e.CallbackQuery.Message.MessageId, answer, replyMarkup: MainMarkup);
+                    //    break;
+                    //}
+                    await client.AnswerCallbackQueryAsync(e.CallbackQuery.Id, "No new info yet");
                     break;
                 case "Back":
                     await client.DeleteMessageAsync(e.CallbackQuery.Message.Chat.Id, e.CallbackQuery.Message.MessageId);
@@ -67,7 +71,7 @@ namespace UI
             {
                 if (await cryptoAPI.AssetExists(msg.Text))
                 {
-                    await client.SendTextMessageAsync(msg.Chat.Id, $"You selected - {msg.Text}", replyToMessageId: msg.MessageId, replyMarkup: MainMarkup);
+                    await client.SendTextMessageAsync(msg.Chat.Id, $"You selected: {msg.Text}", replyToMessageId: msg.MessageId, replyMarkup: MainMarkup);
                 }
                 else
                 {

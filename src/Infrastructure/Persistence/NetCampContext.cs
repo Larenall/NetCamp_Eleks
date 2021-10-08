@@ -7,7 +7,7 @@ using Application.Common.Interfaces;
 
 namespace Infrastructure.Persistance
 {
-    public partial class NetCampContext : DbContext, IDbContext
+    public partial class NetCampContext : DbContext, IDataService
     {
         public NetCampContext()
         {
@@ -49,7 +49,7 @@ namespace Infrastructure.Persistance
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-        void IDbContext.SaveChanges()
+        void IDataService.SaveChanges()
         {
            base.SaveChanges();
         }
