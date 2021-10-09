@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using UI;
 
 namespace NetCamp_Eleks
 {
@@ -25,9 +24,9 @@ namespace NetCamp_Eleks
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<IDataService, NetCampContext>(options =>
-              options.UseSqlServer("Server=localhost;Database=NetCamp;Trusted_Connection=True;"));
+              options.UseSqlServer("Server=localhost;Database=NetCamp;Trusted_Connection=True;"),ServiceLifetime.Transient);
             services.AddControllers();
-            services.AddScoped<IExternalCryptoAPI,LunarCrushAPI>();
+            services.AddSingleton<IExternalCryptoAPI,LunarCrushAPI>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NetCamp_Eleks", Version = "v1" });
