@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\Infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\src\UI\UI.csproj" />
+    <ProjectReference Include="..\src\Application\Application.csproj" />
   </ItemGroup>
 
 </Project>
