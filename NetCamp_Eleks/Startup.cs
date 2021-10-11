@@ -24,7 +24,7 @@ namespace NetCamp_Eleks
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<IDataService, NetCampContext>(options =>
-              options.UseSqlServer("Server=localhost;Database=NetCamp;Trusted_Connection=True;"),ServiceLifetime.Transient);
+              options.UseSqlServer("Server=localhost;Database=NetCamp;Trusted_Connection=True;"),ServiceLifetime.Singleton);
             services.AddControllers();
             services.AddSingleton<IExternalCryptoAPI,LunarCrushAPI>();
             services.AddSwaggerGen(c =>

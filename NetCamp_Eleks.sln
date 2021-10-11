@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCamp_Eleks.WenAPI", "NetCamp_Eleks\NetCamp_Eleks.WenAPI.csproj", "{6E45F7F0-2ACF-4579-B4DE-7BB6A6132F98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCamp_Eleks.WebAPI", "NetCamp_Eleks\NetCamp_Eleks.WebAPI.csproj", "{6E45F7F0-2ACF-4579-B4DE-7BB6A6132F98}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{5B728F43-F805-4F91-A540-1D6154652053}"
 EndProject
@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPITests", "test\WebAPITests\WebAPITests.csproj", "{541525F2-F119-4C9E-85C7-7476ED8BDADA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{3420038A-6CA7-498E-AD05-C4D997DE93F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3420038A-6CA7-498E-AD05-C4D997DE93F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3420038A-6CA7-498E-AD05-C4D997DE93F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{541525F2-F119-4C9E-85C7-7476ED8BDADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{541525F2-F119-4C9E-85C7-7476ED8BDADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{541525F2-F119-4C9E-85C7-7476ED8BDADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{541525F2-F119-4C9E-85C7-7476ED8BDADA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +57,7 @@ Global
 		{5B728F43-F805-4F91-A540-1D6154652053} = {66087996-EC31-4478-82A7-4EE53D1D3E87}
 		{E00C94BB-2D4B-47EE-8673-2FA714DB48A6} = {66087996-EC31-4478-82A7-4EE53D1D3E87}
 		{3420038A-6CA7-498E-AD05-C4D997DE93F4} = {66087996-EC31-4478-82A7-4EE53D1D3E87}
+		{541525F2-F119-4C9E-85C7-7476ED8BDADA} = {1AED5105-3F9B-4011-BF1A-84750C136835}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F579297D-C847-46F7-B2AC-F21254D7B609}

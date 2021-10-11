@@ -23,14 +23,14 @@ namespace NetCamp_Eleks.API
         }
 
         [HttpGet]
-        public async Task<ActionResult<string>> GetCryptoSymbols()
+        public async Task<ActionResult<string>> GetCryptoSymbolsAsync()
         {
             var value = await api.GetCryptoSymbols();
             return Ok(value);
         }
 
         [HttpGet("{Symbol}/info")]
-        public async Task<ActionResult<string>> GetInfoOnCurrency(string Symbol)
+        public async Task<ActionResult<string>> GetInfoOnCurrencyAsync(string Symbol)
         {
             var value = await api.GetInfoOnCurrency(Symbol);
             return Ok(value);
@@ -63,14 +63,14 @@ namespace NetCamp_Eleks.API
         }
 
         [HttpGet("updates")]
-        public async Task<ActionResult<List<UserSubscriptionDTO>>> GetCryptoUpdatesList()
+        public async Task<ActionResult<List<UserSubscriptionDTO>>> GetCryptoUpdatesListAsync()
         {
             var value = await api.GetCryptoUpdatesList();
             return Ok(value);
 
         }
         [HttpGet("{Symbol}/exists")]
-        public async Task<ActionResult<bool>> AssetExists(string Symbol)
+        public async Task<ActionResult<bool>> AssetExistsAsync(string Symbol)
         {
             var value = await api.AssetExists(Symbol);
             return Ok(value);
