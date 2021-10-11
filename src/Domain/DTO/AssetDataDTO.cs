@@ -1,4 +1,6 @@
-﻿namespace Domain.DTO
+﻿using System.Collections.Generic;
+
+namespace Domain.DTO
 {
     public class AssetDataDTO
     {
@@ -11,6 +13,5 @@
         public double? Percent_Change_30d { get; set; }
         public int? alt_rank { get; set; }
         public int? percent_change_24h_rank { get; set; }
-
     }
 }

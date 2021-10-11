@@ -2,12 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
 using Application.Common.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
-namespace Infrastructure.Persistance
+namespace Infrastructure.Persistance.MsSqlData
 {
-    public partial class NetCampContext : DbContext, IDataService
+    public partial class NetCampContext : DbContext
     {
         public NetCampContext()
         {
@@ -22,7 +23,6 @@ namespace Infrastructure.Persistance
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,9 +49,5 @@ namespace Infrastructure.Persistance
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-        void IDataService.SaveChanges()
-        {
-           base.SaveChanges();
-        }
     }
 }

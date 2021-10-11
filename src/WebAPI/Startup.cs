@@ -1,6 +1,8 @@
+using Application.Common;
 using Application.Common.Interfaces;
-using Infrastructure;
-using Infrastructure.Persistance;
+using Infrastructure.CryptoAPI;
+using Infrastructure.Persistance.MsSqlData;
+using Infrastructure.Persistance.MsSqlData.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,10 +25,13 @@ namespace NetCamp_Eleks
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<IDataService, NetCampContext>(options =>
-              options.UseSqlServer("Server=localhost;Database=NetCamp;Trusted_Connection=True;"),ServiceLifetime.Singleton);
+
+            services.AddDbContext<NetCampContext>(options =>
+              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),ServiceLifetime.Singleton);
+            services.AddSingleton<IUserSubscriptionRepository, UserSubscriptionRepository>();
+            services.AddSingleton<IExternalCryptoAPI, LunarCrushAPI>();
+            services.AddSingleton<NamePlaceholderService>();
             services.AddControllers();
-            services.AddSingleton<IExternalCryptoAPI,LunarCrushAPI>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NetCamp_Eleks", Version = "v1" });

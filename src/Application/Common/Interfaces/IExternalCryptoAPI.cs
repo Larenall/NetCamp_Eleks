@@ -13,6 +13,6 @@ namespace Application.Common.Interfaces
         Task<string> GetAssetInfoAsync(string Symbol);
         Task<bool> AssetExistsAsync(string Symbol);
         Task<string> GetAssetSymbolsAsync();
-        Task<List<UserSubscriptionDTO>> GetAssetUpdatesListAsync();
+        Task<List<AssetPriceDTO>> GetAllAssetsPriceAsync();
     }
 }

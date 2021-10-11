@@ -1,12 +1,13 @@
 ﻿using Application.Common.Interfaces;
 using Domain.DTO;
 using Domain.Entities;
+using Infrastructure.Persistance.MsSqlData;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Common;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace NetCamp_Eleks.API
 {
@@ -14,66 +15,49 @@ namespace NetCamp_Eleks.API
     [ApiController]
     public class AssetsController : ControllerBase
     {
-        readonly IDataService db;
-        readonly IExternalCryptoAPI api;
-        public AssetsController(IDataService context, IExternalCryptoAPI _api)
+        readonly NamePlaceholderService service;
+        public AssetsController(NamePlaceholderService _service)
         {
-            db = context;
-            api = _api;
+            service = _service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<string>> GetCryptoSymbolsAsync()
+        public async Task<ActionResult<string>> GetAssetSymbolsAsync()
         {
-            var value = await api.GetAssetSymbolsAsync();
-            return Ok(value);
+            return Ok(await service.GetAssetSymbolsAsync());
         }
 
         [HttpGet("{Symbol}/info")]
-        public async Task<ActionResult<string>> GetInfoOnCurrencyAsync(string Symbol)
+        public async Task<ActionResult<string>> GetAssetInfoAsync(string Symbol)
         {
-            var value = await api.GetAssetInfoAsync(Symbol);
-            return Ok(value);
+            return Ok(await service.GetAssetInfoAsync(Symbol));
         }
 
         [HttpPost]
         public ActionResult SubUserForUpdates(AddRemoveSubscritionDTO sub)
         {
-            if (!db.UserSubscriptions.Any(e => e.ChatId == sub.ChatId && e.Symbol == sub.Symbol))
-            {
-                db.UserSubscriptions.Add(new UserSubscription(sub.ChatId, sub.Symbol));
-                db.SaveChanges();
-                return Ok();
-            }
-            return BadRequest();
+            return service.SubUserForUpdates(sub.ChatId,sub.Symbol) ? Ok() : BadRequest();
 
         }
 
         [HttpDelete("{Symbol}/{ChatId}")]
         public ActionResult UnsubUserFromUpdates(long ChatId, string Symbol)
         {
-            if (db.UserSubscriptions.Any(e => e.ChatId == ChatId && e.Symbol == Symbol))
-            {
-                var subscrToRemove = db.UserSubscriptions.FirstOrDefault(el => el.ChatId == ChatId && el.Symbol == Symbol);
-                db.UserSubscriptions.Remove(subscrToRemove);
-                db.SaveChanges();
-                return Ok();
-            }
-            return NotFound();
+            return service.UnsubUserFromUpdates(ChatId, Symbol) ? Ok() : NotFound();
         }
 
         [HttpGet("updates")]
-        public async Task<ActionResult<List<UserSubscriptionDTO>>> GetCryptoUpdatesListAsync()
+        public async Task<ActionResult<List<UserSubscriptionDTO>>> GetAssetUpdatesListAsync()
         {
-            var value = await api.GetAssetUpdatesListAsync();
-            return Ok(value);
+
+            return Ok(await service.GetAssetUpdatesListAsync());
 
         }
         [HttpGet("{Symbol}/exists")]
         public async Task<ActionResult<bool>> AssetExistsAsync(string Symbol)
         {
-            var value = await api.AssetExistsAsync(Symbol);
-            return Ok(value);
+
+            return Ok(await service.AssetExistsAsync(Symbol));
 
         }
         
