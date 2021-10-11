@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain.DTO
 {
-    public class CryptoPriceDTO
+    public class AssetPriceDTO
     {
         public string Symbol { get; set; }
         public double Price { get; set; }
-        public CryptoPriceDTO(string Symbol, double Price)
+        public AssetPriceDTO(string Symbol, double Price)
         {
             this.Symbol = Symbol;
             this.Price = Price;

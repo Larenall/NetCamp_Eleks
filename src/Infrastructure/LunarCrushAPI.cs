@@ -15,7 +15,7 @@ namespace Infrastructure
 
         readonly IDataService db;
 
-        List<CryptoPriceDTO> currentPrice = new List<CryptoPriceDTO>();
+        List<AssetPriceDTO> currentPrice = new List<AssetPriceDTO>();
 
         const string LunarCrushApiKey = "no1pctizzjxzzkbilo9xe";
 
@@ -24,10 +24,10 @@ namespace Infrastructure
             db = context;
         }
 
-        public async Task<List<UserSubscriptionDTO>> GetCryptoUpdatesList()
+        public async Task<List<UserSubscriptionDTO>> GetAssetUpdatesListAsync()
         {
-            List<CryptoPriceDTO> newPrice = new List<CryptoPriceDTO>() { };
-            List<CryptoPriceDTO> changedCrypto = new List<CryptoPriceDTO>() { };
+            List<AssetPriceDTO> newPrice = new List<AssetPriceDTO>() { };
+            List<AssetPriceDTO> changedCrypto = new List<AssetPriceDTO>() { };
             List<UserSubscriptionDTO> assets = db.UserSubscriptions.ToList().GroupBy(el => el.Symbol, el => el.ChatId, (Symbol, ChatId) => new UserSubscriptionDTO(Symbol, ChatId.ToList())).ToList();
 
             AssetDataWrapperDTO response = await Http.GetFromJsonAsync<AssetDataWrapperDTO>($"https://api.lunarcrush.com/v2?data=meta&key={LunarCrushApiKey}&type=price");
@@ -35,7 +35,7 @@ namespace Infrastructure
             {
                 if (el.Price is not null)
                 {
-                    newPrice.Add(new CryptoPriceDTO(el.Symbol, (double)el.Price));
+                    newPrice.Add(new AssetPriceDTO(el.Symbol, (double)el.Price));
                 }
             });
 
@@ -67,13 +67,13 @@ namespace Infrastructure
             return new List<UserSubscriptionDTO>() { };
 
         }
-        public async Task<bool> AssetExists(string Symbol)
+        public async Task<bool> AssetExistsAsync(string Symbol)
         {
             AssetDataWrapperDTO response = await Http.GetFromJsonAsync<AssetDataWrapperDTO>($"https://api.lunarcrush.com/v2?data=meta&key={LunarCrushApiKey}&type=price");
             return response.data.Any(a => a.Symbol == Symbol && a.Price.HasValue);
         }
 
-        public async Task<string> GetCryptoSymbols()
+        public async Task<string> GetAssetSymbolsAsync()
         {
             AssetDataWrapperDTO response = await Http.GetFromJsonAsync<AssetDataWrapperDTO>($"https://api.lunarcrush.com/v2?data=meta&key={LunarCrushApiKey}&type=price");
             var data = response.data.OrderByDescending(el => el.Price).Take(10).ToList();
@@ -83,8 +83,12 @@ namespace Infrastructure
             });
             return result;
         }
-        public async Task<string> GetInfoOnCurrency(string Symbol)
+        public async Task<string> GetAssetInfoAsync(string Symbol)
         {
+            if(!(await AssetExistsAsync(Symbol)))
+            {
+                return "Couldn`t find any info on given asset :(";
+            }
             var response = await Http.GetFromJsonAsync<AssetDataWrapperDTO>($"https://api.lunarcrush.com/v2?data=assets&key={LunarCrushApiKey}&symbol={Symbol}");
             var result = response.data[0];
             return

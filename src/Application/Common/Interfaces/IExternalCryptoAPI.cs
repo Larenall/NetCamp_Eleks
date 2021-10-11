@@ -10,9 +10,9 @@ namespace Application.Common.Interfaces
     public interface IExternalCryptoAPI
     {
 
-        Task<string> GetInfoOnCurrency(string Symbol);
-        Task<bool> AssetExists(string Symbol);
-        Task<string> GetCryptoSymbols();
-        Task<List<UserSubscriptionDTO>> GetCryptoUpdatesList();
+        Task<string> GetAssetInfoAsync(string Symbol);
+        Task<bool> AssetExistsAsync(string Symbol);
+        Task<string> GetAssetSymbolsAsync();
+        Task<List<UserSubscriptionDTO>> GetAssetUpdatesListAsync();
     }
 }
