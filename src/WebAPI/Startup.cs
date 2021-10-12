@@ -27,7 +27,7 @@ namespace NetCamp_Eleks
         {
 
             services.AddDbContext<NetCampContext>(options =>
-              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),ServiceLifetime.Singleton);
+              options.UseSqlServer(Configuration.GetConnectionString("Default")),ServiceLifetime.Singleton);
             services.AddSingleton<IUserSubscriptionRepository, UserSubscriptionRepository>();
             services.AddSingleton<IExternalCryptoAPI, LunarCrushAPI>();
             services.AddSingleton<NamePlaceholderService>();
