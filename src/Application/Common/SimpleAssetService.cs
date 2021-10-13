@@ -1,18 +1,19 @@
 ﻿using Application.Common.Interfaces;
-using Domain.DTO;
+using Domain.Common;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Domain.Comon;
 
 namespace Application.Common
 {
-    public class NamePlaceholderService
+    public class SimpleAssetService
     {
         readonly IUserSubscriptionRepository repository;
         readonly IExternalCryptoAPI api;
-        private List<AssetPriceDTO> currentPrice = new List<AssetPriceDTO>();
+        private List<AssetPrice> currentPrice = new List<AssetPrice>();
 
-        public NamePlaceholderService(IExternalCryptoAPI api, IUserSubscriptionRepository repository)
+        public SimpleAssetService(IExternalCryptoAPI api, IUserSubscriptionRepository repository)
         {
             this.repository = repository;
             this.api = api;
@@ -38,13 +39,13 @@ namespace Application.Common
             }
             return false;
         }
-        public async Task<List<UserSubscriptionDTO>> GetAssetUpdatesListAsync()
+        public async Task<List<GroupedUserSubscription>> GetAssetUpdatesListAsync()
         {
-            List<AssetPriceDTO> changedCrypto = new List<AssetPriceDTO>() { };
+            List<AssetPrice> changedCrypto = new List<AssetPrice>() { };
 
-            List<UserSubscriptionDTO> assets = repository.GroupBySymbols();
+            List<GroupedUserSubscription> assets = repository.GroupBySymbols();
 
-            List<AssetPriceDTO> newPrice = await api.GetAllAssetsPriceAsync();
+            List<AssetPrice> newPrice = await api.GetAllAssetsPriceAsync();
 
             newPrice.ForEach(n =>
             {
@@ -60,7 +61,9 @@ namespace Application.Common
 
             });
 
-            List<AssetPriceDTO> subbedAndChangedCrypto = changedCrypto.Where(ch => ch.Symbol == assets.FirstOrDefault(a => a.Symbol == ch.Symbol)?.Symbol).ToList();
+            List<AssetPrice> subbedAndChangedCrypto = changedCrypto
+                .Where(ch => ch.Symbol == assets.FirstOrDefault(a => a.Symbol == ch.Symbol)?.Symbol)
+                .ToList();
 
             if (subbedAndChangedCrypto.Count() != 0)
             {
@@ -72,18 +75,18 @@ namespace Application.Common
                 return assets;
 
             }
-            return new List<UserSubscriptionDTO>() { };
+            return new List<GroupedUserSubscription>() { };
 
         }
         public async Task<bool> AssetExistsAsync(string Symbol)
         {
             return await api.AssetExistsAsync(Symbol);
         }
-        public async Task<string> GetAssetSymbolsAsync()
+        public async Task<List<AssetPrice>> GetAssetSymbolsAsync()
         {
             return await api.GetAssetSymbolsAsync();
         }
-        public async Task<string> GetAssetInfoAsync(string Symbol)
+        public async Task<AssetData> GetAssetInfoAsync(string Symbol)
         {
             return await api.GetAssetInfoAsync(Symbol);
         }

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System;
 
-namespace NetCamp_Eleks
+namespace WebAPI
 {
     public class Program
     {

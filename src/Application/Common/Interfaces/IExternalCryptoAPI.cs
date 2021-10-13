@@ -1,4 +1,5 @@
-﻿using Domain.DTO;
+﻿
+using Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace Application.Common.Interfaces
     public interface IExternalCryptoAPI
     {
 
-        Task<string> GetAssetInfoAsync(string Symbol);
+        Task<AssetData> GetAssetInfoAsync(string Symbol);
         Task<bool> AssetExistsAsync(string Symbol);
-        Task<string> GetAssetSymbolsAsync();
-        Task<List<AssetPriceDTO>> GetAllAssetsPriceAsync();
+        Task<List<AssetPrice>> GetAssetSymbolsAsync();
+        Task<List<AssetPrice>> GetAllAssetsPriceAsync();
     }
 }

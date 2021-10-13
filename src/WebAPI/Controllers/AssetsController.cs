@@ -1,34 +1,32 @@
-﻿using Application.Common.Interfaces;
-using Domain.DTO;
-using Domain.Entities;
-using Infrastructure.Persistance.MsSqlData;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Application.Common;
+using Domain.Comon;
+using WebAPI.DTO;
+using Domain.Common;
 
-
-namespace NetCamp_Eleks.API
+namespace WebAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class AssetsController : ControllerBase
     {
-        readonly NamePlaceholderService service;
-        public AssetsController(NamePlaceholderService _service)
+        readonly SimpleAssetService service;
+        public AssetsController(SimpleAssetService _service)
         {
             service = _service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<string>> GetAssetSymbolsAsync()
+        public async Task<ActionResult<List<AssetPrice>>> GetAssetSymbolsAsync()
         {
             return Ok(await service.GetAssetSymbolsAsync());
         }
 
         [HttpGet("{Symbol}/info")]
-        public async Task<ActionResult<string>> GetAssetInfoAsync(string Symbol)
+        public async Task<ActionResult<AssetData>> GetAssetInfoAsync(string Symbol)
         {
             return Ok(await service.GetAssetInfoAsync(Symbol));
         }
@@ -47,7 +45,7 @@ namespace NetCamp_Eleks.API
         }
 
         [HttpGet("updates")]
-        public async Task<ActionResult<List<UserSubscriptionDTO>>> GetAssetUpdatesListAsync()
+        public async Task<ActionResult<List<GroupedUserSubscription>>> GetAssetUpdatesListAsync()
         {
 
             return Ok(await service.GetAssetUpdatesListAsync());

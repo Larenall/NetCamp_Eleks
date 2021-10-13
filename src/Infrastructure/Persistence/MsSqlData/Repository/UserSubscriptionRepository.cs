@@ -1,7 +1,6 @@
 ﻿using Application.Common.Interfaces;
-using Domain.DTO;
+using Domain.Comon;
 using Domain.Entities;
-using Infrastructure.Persistance.MsSqlData;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,16 +37,18 @@ namespace Infrastructure.Persistance.MsSqlData.Repository
         }
         public void DeleteSubscription(UserSubscription entityToDelete)
         {
-            UserSubscription subscription = context.UserSubscriptions.FirstOrDefault(s => s == entityToDelete);
+            Domain.Entities.UserSubscription subscription = context.UserSubscriptions.FirstOrDefault(s => s == entityToDelete);
             context.UserSubscriptions.Remove(subscription);
         }
         public bool SubscriptionExists(long ChatId, string Symbol)
         {
             return context.UserSubscriptions.Any(s => s.ChatId == ChatId && s.Symbol == Symbol);
         }
-        public List<UserSubscriptionDTO> GroupBySymbols()
+        public List<GroupedUserSubscription> GroupBySymbols()
         {
-            return context.UserSubscriptions.ToList().GroupBy(el => el.Symbol, el => el.ChatId, (Symbol, ChatId) => new UserSubscriptionDTO(Symbol, ChatId.ToList())).ToList();
+            return context.UserSubscriptions.ToList()
+                .GroupBy(el => el.Symbol, el => el.ChatId, (Symbol, ChatId) => new GroupedUserSubscription(Symbol, ChatId.ToList()))
+                .ToList();
         }
         public void Save()
         {

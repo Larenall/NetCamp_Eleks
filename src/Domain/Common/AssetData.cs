@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace Domain.DTO
+namespace Domain.Common
 {
-    public class AssetDataDTO
+    public class AssetData
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Symbol { get; set; }
         public double? Price { get; set; }

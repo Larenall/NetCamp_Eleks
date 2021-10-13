@@ -1,4 +1,4 @@
-﻿namespace Domain.DTO { 
+﻿namespace WebAPI.DTO { 
     public class AddRemoveSubscritionDTO
     {
         public long ChatId { get; set; }

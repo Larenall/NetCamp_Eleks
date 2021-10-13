@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.DTO
-{
-    public class AssetPriceDTO
+namespace Domain.Common 
+{ 
+    public class AssetPrice
     {
         public string Symbol { get; set; }
         public double Price { get; set; }
-        public AssetPriceDTO(string Symbol, double Price)
+        public AssetPrice(string Symbol, double Price)
         {
             this.Symbol = Symbol;
             this.Price = Price;

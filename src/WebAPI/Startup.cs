@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace NetCamp_Eleks
+namespace WebAPI
 {
     public class Startup
     {
@@ -30,7 +30,7 @@ namespace NetCamp_Eleks
               options.UseSqlServer(Configuration.GetConnectionString("Default")),ServiceLifetime.Singleton);
             services.AddSingleton<IUserSubscriptionRepository, UserSubscriptionRepository>();
             services.AddSingleton<IExternalCryptoAPI, LunarCrushAPI>();
-            services.AddSingleton<NamePlaceholderService>();
+            services.AddSingleton<SimpleAssetService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
