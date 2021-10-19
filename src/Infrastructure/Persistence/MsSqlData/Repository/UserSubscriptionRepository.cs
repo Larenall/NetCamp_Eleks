@@ -44,7 +44,7 @@ namespace Infrastructure.Persistance.MsSqlData.Repository
         {
             return context.UserSubscriptions.Any(s => s.ChatId == ChatId && s.Symbol == Symbol);
         }
-        public List<GroupedUserSubscription> GroupBySymbols()
+        public List<GroupedUserSubscription> GetGroupedSubscriptions()
         {
             return context.UserSubscriptions.ToList()
                 .GroupBy(el => el.Symbol, el => el.ChatId, (Symbol, ChatId) => new GroupedUserSubscription(Symbol, ChatId.ToList()))

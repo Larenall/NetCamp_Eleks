@@ -10,7 +10,7 @@ namespace Application.Common.Interfaces
         void AddSubscription(Domain.Entities.UserSubscription entityToAdd);
         void DeleteSubscription(long ChatId, string Symbol);
         List<UserSubscription> GetSubscriptions();
-        List<GroupedUserSubscription> GroupBySymbols();
+        List<GroupedUserSubscription> GetGroupedSubscriptions();
         void Save();
         bool SubscriptionExists(long ChatId, string Symbol);
     }
