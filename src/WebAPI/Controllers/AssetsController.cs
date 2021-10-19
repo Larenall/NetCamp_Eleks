@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Common;
-using Domain.Comon;
 using WebAPI.DTO;
 using Domain.Common;
+using AutoMapper;
 
 namespace WebAPI.Controllers
 {
@@ -14,21 +14,29 @@ namespace WebAPI.Controllers
     public class AssetsController : ControllerBase
     {
         readonly SimpleAssetService service;
-        public AssetsController(SimpleAssetService _service)
+
+        readonly IMapper mapper;
+
+        public AssetsController(SimpleAssetService _service,IMapper _mapper)
         {
             service = _service;
+            mapper = _mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<AssetPrice>>> GetAssetSymbolsAsync()
+        public async Task<ActionResult<List<AssetPriceDTO>>> GetAssetSymbolsAsync()
         {
-            return Ok(await service.GetAssetSymbolsAsync());
+            var symbols = await service.GetAssetSymbolsAsync();
+            var symbolsDTO = mapper.Map<List<AssetPriceDTO>>(symbols);
+            return Ok(symbolsDTO);
         }
 
         [HttpGet("{Symbol}/info")]
-        public async Task<ActionResult<AssetData>> GetAssetInfoAsync(string Symbol)
+        public async Task<ActionResult<AssetDataDTO>> GetAssetInfoAsync(string Symbol)
         {
-            return Ok(await service.GetAssetInfoAsync(Symbol));
+            var assetData = await service.GetAssetInfoAsync(Symbol);
+            var assetDataDTO = mapper.Map<AssetDataDTO>(assetData);
+            return Ok(assetDataDTO);
         }
 
         [HttpPost]
@@ -45,10 +53,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("updates")]
-        public async Task<ActionResult<List<GroupedUserSubscription>>> GetAssetUpdatesListAsync()
+        public async Task<ActionResult<List<GroupedUserSubscriptionDTO>>> GetAssetUpdatesListAsync()
         {
-
-            return Ok(await service.GetAssetUpdatesListAsync());
+            var subscriptions = await service.GetAssetUpdatesListAsync();
+            var subscriptionsDTO = mapper.Map<List<GroupedUserSubscriptionDTO>>(subscriptions);
+            return Ok(subscriptionsDTO);
 
         }
         [HttpGet("{Symbol}/exists")]

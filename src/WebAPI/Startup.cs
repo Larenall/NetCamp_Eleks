@@ -1,3 +1,4 @@
+using AutoMapper;
 using Application.Common;
 using Application.Common.Interfaces;
 using Infrastructure.CryptoAPI;
@@ -10,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
+using WebAPI.AutoMapper;
 
 namespace WebAPI
 {
@@ -32,6 +35,10 @@ namespace WebAPI
             services.AddSingleton<IExternalCryptoAPI, LunarCrushAPI>();
             services.AddSingleton<SimpleAssetService>();
             services.AddControllers();
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+            services.AddHttpClient("LunarCrushAPI", c => {
+                c.BaseAddress = new Uri(Configuration.GetValue<string>("LunarCrushAPI_URL"));
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NetCamp_Eleks", Version = "v1" });
