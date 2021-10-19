@@ -8,9 +8,9 @@ using WebAPI.DTO;
 
 namespace WebAPI.AutoMapper
 {
-    public class AutoMapperProfiles : Profile
+    public class APIAutoMapperProfiles : Profile
     {
-        public AutoMapperProfiles()
+        public APIAutoMapperProfiles()
         {
             CreateMap<AssetPrice, AssetPriceDTO>();
             CreateMap<AssetData, AssetDataDTO>();

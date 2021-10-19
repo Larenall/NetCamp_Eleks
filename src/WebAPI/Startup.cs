@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using WebAPI.AutoMapper;
+using Infrastructure.CryptoAPI.AutoMapper;
 
 namespace WebAPI
 {
@@ -35,7 +36,8 @@ namespace WebAPI
             services.AddSingleton<IExternalCryptoAPI, LunarCrushAPI>();
             services.AddSingleton<SimpleAssetService>();
             services.AddControllers();
-            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+            services.AddAutoMapper(typeof(InfrastructureAutoMapperProfiles).Assembly);
+            services.AddAutoMapper(typeof(APIAutoMapperProfiles).Assembly);
             services.AddHttpClient("LunarCrushAPI", c => {
                 c.BaseAddress = new Uri(Configuration.GetValue<string>("LunarCrushAPI_URL"));
             });

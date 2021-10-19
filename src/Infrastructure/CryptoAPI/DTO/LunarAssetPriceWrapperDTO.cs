@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace Domain.Common
+namespace Infrastructure.CryptoAPI.DTO
 {
-    public class AssetDataWrapper
+    class LunarAssetPriceWrapperDTO
     {
         public object config { get; set; }
         public object usage { get; set; }
-        public List<AssetData> data { get; set; }
+        public List<LunarAssetPriceDTO> data { get; set; }
 
     }
 }
