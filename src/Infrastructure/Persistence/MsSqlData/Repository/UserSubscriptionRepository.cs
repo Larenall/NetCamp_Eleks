@@ -37,7 +37,7 @@ namespace Infrastructure.Persistance.MsSqlData.Repository
         }
         public void DeleteSubscription(UserSubscription entityToDelete)
         {
-            Domain.Entities.UserSubscription subscription = context.UserSubscriptions.FirstOrDefault(s => s == entityToDelete);
+            UserSubscription subscription = context.UserSubscriptions.FirstOrDefault(s => s == entityToDelete);
             context.UserSubscriptions.Remove(subscription);
         }
         public bool SubscriptionExists(long ChatId, string Symbol)

@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Domain.Common;
 using Infrastructure.CryptoAPI.DTO;
 using AutoMapper;
+using System;
+using System.Net;
+using Domain.Exceptions;
 
 namespace Infrastructure.CryptoAPI
 {
@@ -19,11 +22,11 @@ namespace Infrastructure.CryptoAPI
 
         readonly IMapper mapper;
 
-        public LunarCrushAPI(IConfiguration configuration, IHttpClientFactory _clientFactory, IMapper _mapper)
+        public LunarCrushAPI(IConfiguration configuration, IHttpClientFactory clientFactory, IMapper mapper)
         {
             apiKey = configuration.GetSection("LunarCrushAPI_Key").Value;
-            client = _clientFactory.CreateClient("LunarCrushAPI");
-            mapper = _mapper;
+            client = clientFactory.CreateClient("LunarCrushAPI");
+            this.mapper = mapper;
         }
 
         public async Task<bool> AssetExistsAsync(string Symbol)
@@ -33,20 +36,26 @@ namespace Infrastructure.CryptoAPI
         }
         public async Task<List<AssetPrice>> GetAllAssetsPriceAsync()
         {
-            var response = await client.GetFromJsonAsync<LunarAssetPriceWrapperDTO>($"?data=meta&key={apiKey}&type=price");
-            var data = response.data.Where(a => a.price.HasValue).ToList();
+            var response = await client.GetAsync($"?data=meta&key={apiKey}&type=price");
+            if (response.StatusCode == HttpStatusCode.BadRequest) throw new AssetDoesntExistException("Asset doesn`t exists");
+            var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
+            var data = result.data.Where(a => a.price.HasValue).ToList();
             return mapper.Map<List<AssetPrice>>(data);
         }
-        public async Task<List<AssetPrice>> GetAssetSymbolsAsync()
+        public async Task<List<AssetPrice>> GetAssetSymbolsAsync(int AssetAmount)
         {
-            var response = await client.GetFromJsonAsync<LunarAssetPriceWrapperDTO>($"?data=meta&key={apiKey}&type=price");
-            var data = response.data.OrderByDescending(el => el.price).Take(10).ToList();
+            var response = await client.GetAsync($"?data=meta&key={apiKey}&type=price");
+            if (response.StatusCode == HttpStatusCode.BadRequest) throw new AssetDoesntExistException("Asset doesn`t exists");
+            var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
+            var data = result.data.OrderByDescending(el => el.price).Take(AssetAmount).ToList();
             return mapper.Map<List<AssetPrice>>(data);
         }
         public async Task<AssetData> GetAssetInfoAsync(string Symbol)
         {
-            var response = await client.GetFromJsonAsync<LunarAssetDataWrapperDTO>($"?data=assets&key={apiKey}&symbol={Symbol}");
-            return mapper.Map<AssetData>(response.data[0]);
+            var response = await client.GetAsync($"?data=assets&key={apiKey}&symbol={Symbol}");
+            if (response.StatusCode == HttpStatusCode.BadRequest) throw new AssetDoesntExistException("Asset doesn`t exists");
+            var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
+            return mapper.Map<AssetData>(result.data[0]);
         }
     }
 }

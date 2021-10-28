@@ -13,7 +13,7 @@ namespace Application.Common.Interfaces
 
         Task<AssetData> GetAssetInfoAsync(string Symbol);
         Task<bool> AssetExistsAsync(string Symbol);
-        Task<List<AssetPrice>> GetAssetSymbolsAsync();
+        Task<List<AssetPrice>> GetAssetSymbolsAsync(int AssetAmount);
         Task<List<AssetPrice>> GetAllAssetsPriceAsync();
     }
 }

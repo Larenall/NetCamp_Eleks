@@ -81,9 +81,9 @@ namespace Application.Common
         {
             return await api.AssetExistsAsync(Symbol);
         }
-        public async Task<List<AssetPrice>> GetAssetSymbolsAsync()
+        public async Task<List<AssetPrice>> GetAssetSymbolsAsync(int AssetAmount)
         {
-            return await api.GetAssetSymbolsAsync();
+            return await api.GetAssetSymbolsAsync(AssetAmount);
         }
         public async Task<AssetData> GetAssetInfoAsync(string Symbol)
         {
