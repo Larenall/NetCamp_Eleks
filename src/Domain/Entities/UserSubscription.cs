@@ -10,8 +10,6 @@ namespace Domain.Entities
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        [Required]
-        [MaxLength(10)]
         public string Symbol { get; set; }
 
         public string Resource { get; set; }

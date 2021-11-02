@@ -42,7 +42,7 @@ namespace Application.Common
         {
             List<AssetPrice> changedCrypto = new List<AssetPrice>() { };
 
-            List<GroupedUserSubscription> assets = repository.GetGroupedSubscriptions(Recource);
+            List<GroupedUserSubscription> assets = repository.GetGroupedSubscriptionsForRecource(Recource);
 
             List<AssetPrice> newPrice = await api.GetAllAssetsPriceAsync();
 
