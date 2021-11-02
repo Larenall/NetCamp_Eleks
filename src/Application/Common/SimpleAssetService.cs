@@ -17,32 +17,32 @@ namespace Application.Common
             this.repository = repository;
             this.api = api;
         }
-        public bool SubUserForUpdates(long ChatId, string Symbol)
+        public bool SubUserForUpdates(string UserId, string Symbol,string Recource)
         {
-            if (!repository.SubscriptionExists(ChatId,Symbol))
+            if (!repository.SubscriptionExists(UserId, Symbol, Recource))
             {
-                repository.AddSubscription(ChatId, Symbol);
+                repository.AddSubscription(UserId, Symbol, Recource);
                 repository.Save();
                 return true;
             }
             return false;
 
         }
-        public bool UnsubUserFromUpdates(long ChatId, string Symbol)
+        public bool UnsubUserFromUpdates(string UserId, string Symbol, string Recource)
         {
-            if (repository.SubscriptionExists(ChatId, Symbol))
+            if (repository.SubscriptionExists(UserId, Symbol, Recource))
             {
-                repository.DeleteSubscription(ChatId, Symbol);
+                repository.DeleteSubscription(UserId, Symbol, Recource);
                 repository.Save();
                 return true;
             }
             return false;
         }
-        public async Task<List<GroupedUserSubscription>> GetAssetUpdatesListAsync()
+        public async Task<List<GroupedUserSubscription>> GetAssetUpdatesListAsync(string Recource)
         {
             List<AssetPrice> changedCrypto = new List<AssetPrice>() { };
 
-            List<GroupedUserSubscription> assets = repository.GetGroupedSubscriptions();
+            List<GroupedUserSubscription> assets = repository.GetGroupedSubscriptions(Recource);
 
             List<AssetPrice> newPrice = await api.GetAllAssetsPriceAsync();
 

@@ -10,17 +10,17 @@ namespace WebAPI.DTO
     {
         public string Symbol { get; set; }
         public double Price { get; set; }
-        public List<long> ChatIdList { get; set; }
-        public GroupedUserSubscriptionDTO(string Symbol, double Price, List<long> ChatIdList)
+        public List<string> UserIdList { get; set; }
+        public GroupedUserSubscriptionDTO(string Symbol, double Price, List<string> UserIdList)
         {
             this.Symbol = Symbol;
             this.Price = Price;
-            this.ChatIdList = ChatIdList;
+            this.UserIdList = UserIdList;
         }
-        public GroupedUserSubscriptionDTO(string Symbol,List<long> ChatIdList)
+        public GroupedUserSubscriptionDTO(string Symbol,List<string> UserIdList)
         {
             this.Symbol = Symbol;
-            this.ChatIdList = ChatIdList;
+            this.UserIdList = UserIdList;
         }
     }
     

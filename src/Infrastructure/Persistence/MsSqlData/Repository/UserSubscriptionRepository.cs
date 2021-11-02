@@ -20,9 +20,9 @@ namespace Infrastructure.Persistance.MsSqlData.Repository
         {
             return context.UserSubscriptions.ToList();
         }
-        public void AddSubscription(long ChatId, string Symbol)
+        public void AddSubscription(string UserId, string Symbol, string Recource)
         {
-            context.UserSubscriptions.Add(new UserSubscription(ChatId, Symbol));
+            context.UserSubscriptions.Add(new UserSubscription(UserId, Symbol, Recource));
         }
 
         public void AddSubscription(UserSubscription entityToAdd)
@@ -30,9 +30,9 @@ namespace Infrastructure.Persistance.MsSqlData.Repository
             context.UserSubscriptions.Add(entityToAdd);
         }
         
-        public void DeleteSubscription(long ChatId, string Symbol)
+        public void DeleteSubscription(string UserId, string Symbol, string Recource)
         {
-            UserSubscription customer = context.UserSubscriptions.FirstOrDefault(s => s.ChatId == ChatId && s.Symbol == Symbol);
+            UserSubscription customer = context.UserSubscriptions.FirstOrDefault(s => s.Resource == Recource && s.UserId == UserId && s.Symbol == Symbol);
             context.UserSubscriptions.Remove(customer);
         }
         public void DeleteSubscription(UserSubscription entityToDelete)
@@ -40,14 +40,14 @@ namespace Infrastructure.Persistance.MsSqlData.Repository
             UserSubscription subscription = context.UserSubscriptions.FirstOrDefault(s => s == entityToDelete);
             context.UserSubscriptions.Remove(subscription);
         }
-        public bool SubscriptionExists(long ChatId, string Symbol)
+        public bool SubscriptionExists(string UserId, string Symbol, string Recource)
         {
-            return context.UserSubscriptions.Any(s => s.ChatId == ChatId && s.Symbol == Symbol);
+            return context.UserSubscriptions.Any(s => s.Resource == Recource && s.UserId == UserId && s.Symbol == Symbol);
         }
-        public List<GroupedUserSubscription> GetGroupedSubscriptions()
+        public List<GroupedUserSubscription> GetGroupedSubscriptions(string Recource)
         {
-            return context.UserSubscriptions.ToList()
-                .GroupBy(el => el.Symbol, el => el.ChatId, (Symbol, ChatId) => new GroupedUserSubscription(Symbol, ChatId.ToList()))
+            return context.UserSubscriptions.Where(el => el.Resource == Recource).ToList()
+                .GroupBy(el => el.Symbol, el => el.UserId, (Symbol, UserId) => new GroupedUserSubscription(Symbol, UserId.ToList()))
                 .ToList();
         }
         public void Save()

@@ -3,14 +3,16 @@ using Infrastructure.Persistance.MsSqlData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Persistence.MsSqlData.Migrations
 {
     [DbContext(typeof(NetCampContext))]
-    partial class NetCampContextModelSnapshot : ModelSnapshot
+    [Migration("20211102123142_RenameChatIdToUserId")]
+    partial class RenameChatIdToUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -31,15 +31,17 @@ namespace Infrastructure.CryptoAPI
 
         public async Task<bool> AssetExistsAsync(string Symbol)
         {
-            var response = await client.GetFromJsonAsync<LunarAssetPriceWrapperDTO>($"?data=meta&key={apiKey}&type=price");
-            return response.data.Any(a => a.symbol == Symbol && a.price.HasValue);
+            var response = await client.GetAsync($"?data=meta&key={apiKey}&type=price");
+            if (response.StatusCode == HttpStatusCode.BadRequest) throw new ExternaAPIException();
+            var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
+            return result.data.Any(a => a.symbol == Symbol && a.price.HasValue);
         }
         public async Task<List<AssetPrice>> GetAllAssetsPriceAsync()
         {
             var response = await client.GetAsync($"?data=meta&key={apiKey}&type=price");
             if (response.StatusCode == HttpStatusCode.BadRequest) throw new AssetDoesntExistException("Asset doesn`t exists");
             var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
-            var data = result.data.Where(a => a.price.HasValue).ToList();
+            var data = result.data.Where(a=>a.price.HasValue).ToList();
             return mapper.Map<List<AssetPrice>>(data);
         }
         public async Task<List<AssetPrice>> GetAssetSymbolsAsync(int AssetAmount)

@@ -9,18 +9,21 @@ namespace Domain.Entities
     public partial class UserSubscription
     {
         public int Id { get; set; }
-        public long ChatId { get; set; }
+        public string UserId { get; set; }
         [Required]
         [MaxLength(10)]
         public string Symbol { get; set; }
+
+        public string Resource { get; set; }
 
         public UserSubscription()
         {
 
         }
-        public UserSubscription(long ChatId,string Symbol)
+        public UserSubscription(string UserId, string Symbol, string Resource)
         {
-            this.ChatId = ChatId;
+            this.Resource = Resource;
+            this.UserId = UserId;
             this.Symbol = Symbol;
         }
     }

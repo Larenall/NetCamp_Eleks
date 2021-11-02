@@ -35,13 +35,14 @@ namespace Infrastructure.Persistance.MsSqlData
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.ChatId).HasColumnName("chatId");
+                entity.Property(e => e.UserId).HasColumnName("userId");
 
                 entity.Property(e => e.Symbol)
                     .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("symbol");
+                entity.Property(e => e.Resource).HasColumnName("recource");
             });
 
             OnModelCreatingPartial(modelBuilder);
