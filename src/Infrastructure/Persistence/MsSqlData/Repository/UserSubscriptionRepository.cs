@@ -46,7 +46,7 @@ namespace Infrastructure.Persistance.MsSqlData.Repository
         }
         public List<GroupedUserSubscription> GetGroupedSubscriptionsForRecource(string Recource)
         {
-            return context.UserSubscriptions.Where(el => el.Resource == Recource).ToList()
+            return context.UserSubscriptions.Where(el => el.Resource == Recource)
                 .GroupBy(el => el.Symbol, el => el.UserId, (Symbol, UserId) => new GroupedUserSubscription(Symbol, UserId.ToList()))
                 .ToList();
         }
