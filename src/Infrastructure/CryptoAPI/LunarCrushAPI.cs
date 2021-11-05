@@ -31,15 +31,16 @@ namespace Infrastructure.CryptoAPI
 
         public async Task<bool> AssetExistsAsync(string Symbol)
         {
-            var response = await client.GetAsync($"?data=meta&key={apiKey}&type=price");
-            if (response.StatusCode == HttpStatusCode.BadRequest) throw new ExternaAPIException();
-            var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
-            return result.data.Any(a => a.symbol == Symbol && a.price.HasValue);
+            //var response = await client.GetAsync($"?data=meta&key={apiKey}&type=price");
+            //if (!response.IsSuccessStatusCode) throw new ExternaAPIException();
+            //var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
+            //return result.data.Any(a => a.symbol == Symbol && a.price.HasValue);
+            return true;
         }
         public async Task<List<AssetPrice>> GetAllAssetsPriceAsync()
         {
             var response = await client.GetAsync($"?data=meta&key={apiKey}&type=price");
-            if (response.StatusCode == HttpStatusCode.BadRequest) throw new AssetDoesntExistException("Asset doesn`t exists");
+            if (!response.IsSuccessStatusCode) throw new ExternaAPIException();
             var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
             var data = result.data.Where(a=>a.price.HasValue).ToList();
             return mapper.Map<List<AssetPrice>>(data);
@@ -47,7 +48,7 @@ namespace Infrastructure.CryptoAPI
         public async Task<List<AssetPrice>> GetAssetSymbolsAsync(int AssetAmount)
         {
             var response = await client.GetAsync($"?data=meta&key={apiKey}&type=price");
-            if (response.StatusCode == HttpStatusCode.BadRequest) throw new AssetDoesntExistException("Asset doesn`t exists");
+            if (!response.IsSuccessStatusCode) throw new ExternaAPIException();
             var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
             var data = result.data.OrderByDescending(el => el.price).Take(AssetAmount).ToList();
             return mapper.Map<List<AssetPrice>>(data);
@@ -55,8 +56,9 @@ namespace Infrastructure.CryptoAPI
         public async Task<AssetData> GetAssetInfoAsync(string Symbol)
         {
             var response = await client.GetAsync($"?data=assets&key={apiKey}&symbol={Symbol}");
-            if (response.StatusCode == HttpStatusCode.BadRequest) throw new AssetDoesntExistException("Asset doesn`t exists");
-            var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
+            if (!response.IsSuccessStatusCode) throw new ExternaAPIException();
+            var result = await response.Content.ReadFromJsonAsync<LunarAssetDataWrapperDTO>();
+            if (result.data == null || result.data.Count == 0) throw new AssetDoesntExistException(Symbol);
             return mapper.Map<AssetData>(result.data[0]);
         }
     }

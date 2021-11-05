@@ -9,7 +9,7 @@ namespace Domain.Exceptions
     public class AssetDoesntExistException : Exception
     {
         public AssetDoesntExistException(string Symbol)
-            : base($"Asset \"{Symbol}\" doensn`t exist.")
+            : base($"Asset \'{Symbol}\' doesn`t exist.")
         {
         }
     }

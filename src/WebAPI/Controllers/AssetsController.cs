@@ -27,31 +27,17 @@ namespace WebAPI.Controllers
         [HttpGet("{AssetAmount}")]
         public async Task<ActionResult<List<AssetPriceDTO>>> GetAssetSymbolsAsync(int AssetAmount = 10)
         {
-            try
-            {
-                var symbols = await service.GetAssetSymbolsAsync(AssetAmount);
-                var symbolsDTO = mapper.Map<List<AssetPriceDTO>>(symbols);
-                return Ok(symbolsDTO);
-            }
-            catch (AssetDoesntExistException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var symbols = await service.GetAssetSymbolsAsync(AssetAmount);
+            var symbolsDTO = mapper.Map<List<AssetPriceDTO>>(symbols);
+            return Ok(symbolsDTO);
         }
 
         [HttpGet("{Symbol}/info")]
         public async Task<ActionResult<AssetDataDTO>> GetAssetInfoAsync(string Symbol)
         {
-            try
-            {
-                var assetData = await service.GetAssetInfoAsync(Symbol);
-                var assetDataDTO = mapper.Map<AssetDataDTO>(assetData);
-                return Ok(assetDataDTO);
-            }
-            catch (AssetDoesntExistException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var assetData = await service.GetAssetInfoAsync(Symbol);
+            var assetDataDTO = mapper.Map<AssetDataDTO>(assetData);
+            return Ok(assetDataDTO);
         }
         [HttpPost]
         public async Task<ActionResult> SubUserForUpdates(AddRemoveSubscritionDTO sub)
@@ -72,28 +58,14 @@ namespace WebAPI.Controllers
         [HttpGet("{Recource}/updates")]
         public async Task<ActionResult<List<GroupedUserSubscriptionDTO>>> GetAssetUpdatesListAsync(string Recource)
         {
-            try
-            {
-                var subscriptions = await service.GetAssetUpdatesListAsync(Recource);
-                var subscriptionsDTO = mapper.Map<List<GroupedUserSubscriptionDTO>>(subscriptions);
-                return Ok(subscriptionsDTO);
-            }
-            catch (AssetDoesntExistException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var subscriptions = await service.GetAssetUpdatesListAsync(Recource);
+            var subscriptionsDTO = mapper.Map<List<GroupedUserSubscriptionDTO>>(subscriptions);
+            return Ok(subscriptionsDTO);
         }
         [HttpGet("{Symbol}/exists")]
         public async Task<ActionResult<bool>> AssetExistsAsync(string Symbol)
         {
-            try
-            {
-                return Ok(await service.AssetExistsAsync(Symbol));
-            }
-            catch (ExternaAPIException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await service.AssetExistsAsync(Symbol));
         }
         
     }

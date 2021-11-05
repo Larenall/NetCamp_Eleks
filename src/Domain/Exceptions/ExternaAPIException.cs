@@ -9,7 +9,8 @@ namespace Domain.Exceptions
     public class ExternaAPIException : Exception
     {
         public ExternaAPIException()
-            : base("Something went wrong while making a request to external API.")
+            : base("An error occured during the request to external recource. Recource is not responging and is either malfunctioning or being updated. Try again later")
+
         {
         }
     }

@@ -9,8 +9,10 @@ namespace Infrastructure.CryptoAPI.DTO
     class LunarAssetDataWrapperDTO
     {
         public object config { get; set; }
-        public object usage { get; set; }
         public List<LunarAssetDataDTO> data { get; set; }
-        
+
     }
+
+   
+
 }

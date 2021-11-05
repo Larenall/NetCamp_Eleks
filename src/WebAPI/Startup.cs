@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using WebAPI.AutoMapper;
 using Infrastructure.CryptoAPI.AutoMapper;
+using CleanArchitecture.WebUI.Filters;
 
 namespace WebAPI
 {
@@ -35,7 +36,9 @@ namespace WebAPI
             services.AddSingleton<IUserSubscriptionRepository, UserSubscriptionRepository>();
             services.AddSingleton<IExternalCryptoAPI, LunarCrushAPI>();
             services.AddSingleton<SimpleAssetService>();
-            services.AddControllers();
+            services.AddControllers(options=>
+                options.Filters.Add<AssetExceptionFilter>()
+            );
             services.AddAutoMapper(typeof(InfrastructureAutoMapperProfiles).Assembly);
             services.AddAutoMapper(typeof(APIAutoMapperProfiles).Assembly);
             services.AddHttpClient("LunarCrushAPI", c => {
