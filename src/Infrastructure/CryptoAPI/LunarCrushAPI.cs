@@ -31,11 +31,10 @@ namespace Infrastructure.CryptoAPI
 
         public async Task<bool> AssetExistsAsync(string Symbol)
         {
-            //var response = await client.GetAsync($"?data=meta&key={apiKey}&type=price");
-            //if (!response.IsSuccessStatusCode) throw new ExternaAPIException();
-            //var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
-            //return result.data.Any(a => a.symbol == Symbol && a.price.HasValue);
-            return true;
+            var response = await client.GetAsync($"?data=meta&key={apiKey}&type=price");
+            if (!response.IsSuccessStatusCode) throw new ExternaAPIException();
+            var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
+            return result.data.Any(a => a.symbol == Symbol && a.price.HasValue);
         }
         public async Task<List<AssetPrice>> GetAllAssetsPriceAsync()
         {

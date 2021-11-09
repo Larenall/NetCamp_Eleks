@@ -20,7 +20,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTests", "test\Application.UnitTests\Application.UnitTests.csproj", "{911A8A81-0C40-4A02-8814-9E36B140199D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UnitTests", "test\Application.UnitTests\Application.UnitTests.csproj", "{911A8A81-0C40-4A02-8814-9E36B140199D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCamp.IntegrationTests", "test\NetCamp.IntegrationTests\NetCamp.IntegrationTests.csproj", "{683F1586-76C5-4DD0-8AF5-DC6D79B82104}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,10 @@ Global
 		{911A8A81-0C40-4A02-8814-9E36B140199D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{911A8A81-0C40-4A02-8814-9E36B140199D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{911A8A81-0C40-4A02-8814-9E36B140199D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{683F1586-76C5-4DD0-8AF5-DC6D79B82104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{683F1586-76C5-4DD0-8AF5-DC6D79B82104}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{683F1586-76C5-4DD0-8AF5-DC6D79B82104}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{683F1586-76C5-4DD0-8AF5-DC6D79B82104}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{E00C94BB-2D4B-47EE-8673-2FA714DB48A6} = {66087996-EC31-4478-82A7-4EE53D1D3E87}
 		{3420038A-6CA7-498E-AD05-C4D997DE93F4} = {66087996-EC31-4478-82A7-4EE53D1D3E87}
 		{911A8A81-0C40-4A02-8814-9E36B140199D} = {1AED5105-3F9B-4011-BF1A-84750C136835}
+		{683F1586-76C5-4DD0-8AF5-DC6D79B82104} = {1AED5105-3F9B-4011-BF1A-84750C136835}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F579297D-C847-46F7-B2AC-F21254D7B609}
