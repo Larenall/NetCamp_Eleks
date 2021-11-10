@@ -2,12 +2,12 @@
 {
     public class LunarAssetPriceDTO
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string symbol { get; set; }
-        public float? price { get; set; }
-        public float? price_btc { get; set; }
-        public float? market_cap { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Symbol { get; set; }
+        public double? Price { get; set; }
+        public double? Price_btc { get; set; }
+        public double? Market_cap { get; set; }
     }
 
 }

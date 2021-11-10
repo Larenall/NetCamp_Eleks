@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 using Application.Common;
 using WebAPI.DTO;
 using AutoMapper;
-using System;
-using Domain.Exceptions;
+
 
 namespace WebAPI.Controllers
 {

@@ -34,14 +34,14 @@ namespace Infrastructure.CryptoAPI
             var response = await client.GetAsync($"?data=meta&key={apiKey}&type=price");
             if (!response.IsSuccessStatusCode) throw new ExternaAPIException();
             var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
-            return result.data.Any(a => a.symbol == Symbol && a.price.HasValue);
+            return result.data.Any(a => a.Symbol == Symbol && a.Price.HasValue);
         }
         public async Task<List<AssetPrice>> GetAllAssetsPriceAsync()
         {
             var response = await client.GetAsync($"?data=meta&key={apiKey}&type=price");
             if (!response.IsSuccessStatusCode) throw new ExternaAPIException();
             var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
-            var data = result.data.Where(a=>a.price.HasValue).ToList();
+            var data = result.data.Where(a=>a.Price.HasValue).ToList();
             return mapper.Map<List<AssetPrice>>(data);
         }
         public async Task<List<AssetPrice>> GetAssetSymbolsAsync(int AssetAmount)
@@ -49,7 +49,7 @@ namespace Infrastructure.CryptoAPI
             var response = await client.GetAsync($"?data=meta&key={apiKey}&type=price");
             if (!response.IsSuccessStatusCode) throw new ExternaAPIException();
             var result = await response.Content.ReadFromJsonAsync<LunarAssetPriceWrapperDTO>();
-            var data = result.data.OrderByDescending(el => el.price).Take(AssetAmount).ToList();
+            var data = result.data.OrderByDescending(el => el.Price).Take(AssetAmount).ToList();
             return mapper.Map<List<AssetPrice>>(data);
         }
         public async Task<AssetData> GetAssetInfoAsync(string Symbol)
