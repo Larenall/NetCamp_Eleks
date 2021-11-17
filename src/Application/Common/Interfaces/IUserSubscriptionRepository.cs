@@ -11,7 +11,6 @@ namespace Application.Common.Interfaces
         void DeleteSubscription(string ChatId, string Symbol, string Recource);
         List<UserSubscription> GetSubscriptions();
         List<GroupedUserSubscription> GetGroupedSubscriptionsForRecource(string Recource);
-        void Save();
         bool SubscriptionExists(string ChatId, string Symbol, string Recource);
     }
 }

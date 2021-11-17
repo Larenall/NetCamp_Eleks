@@ -23,22 +23,26 @@ namespace Infrastructure.Persistance.MsSqlData.Repository
         public void AddSubscription(string UserId, string Symbol, string Recource)
         {
             context.UserSubscriptions.Add(new UserSubscription(UserId, Symbol, Recource));
+            context.SaveChanges();
         }
 
         public void AddSubscription(UserSubscription entityToAdd)
         {
             context.UserSubscriptions.Add(entityToAdd);
+            context.SaveChanges();
         }
         
         public void DeleteSubscription(string UserId, string Symbol, string Recource)
         {
             UserSubscription customer = context.UserSubscriptions.FirstOrDefault(s => s.Resource == Recource && s.UserId == UserId && s.Symbol == Symbol);
             context.UserSubscriptions.Remove(customer);
+            context.SaveChanges();
         }
         public void DeleteSubscription(UserSubscription entityToDelete)
         {
             UserSubscription subscription = context.UserSubscriptions.FirstOrDefault(s => s == entityToDelete);
             context.UserSubscriptions.Remove(subscription);
+            context.SaveChanges();
         }
         public bool SubscriptionExists(string UserId, string Symbol, string Recource)
         {
@@ -49,10 +53,6 @@ namespace Infrastructure.Persistance.MsSqlData.Repository
             return context.UserSubscriptions.Where(el => el.Resource == Recource).ToList()
                 .GroupBy(el => el.Symbol, el => el.UserId, (Symbol, UserId) => new GroupedUserSubscription(Symbol, UserId.ToList()))
                 .ToList();
-        }
-        public void Save()
-        {
-            context.SaveChanges();
         }
     }
 }

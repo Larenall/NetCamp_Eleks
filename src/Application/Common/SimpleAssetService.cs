@@ -22,7 +22,6 @@ namespace Application.Common
             if (!repository.SubscriptionExists(UserId, Symbol, Recource))
             {
                 repository.AddSubscription(UserId, Symbol, Recource);
-                repository.Save();
                 return true;
             }
             return false;
@@ -33,7 +32,6 @@ namespace Application.Common
             if (repository.SubscriptionExists(UserId, Symbol, Recource))
             {
                 repository.DeleteSubscription(UserId, Symbol, Recource);
-                repository.Save();
                 return true;
             }
             return false;
