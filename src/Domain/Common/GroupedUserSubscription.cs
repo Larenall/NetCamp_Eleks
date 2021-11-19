@@ -10,17 +10,17 @@ namespace Domain.Common
     {
         public string Symbol { get; set; }
         public double Price { get; set; }
-        public List<string> UserIdList { get; set; }
-        public GroupedUserSubscription(string Symbol, double Price, List<string> UserIdList)
+        public List<(string UserId, string Recource)> SubData { get; set; }
+        public GroupedUserSubscription(string Symbol, double Price, List<(string, string)> SubData)
         {
             this.Symbol = Symbol;
             this.Price = Price;
-            this.UserIdList = UserIdList;
+            this.SubData = SubData;
         }
-        public GroupedUserSubscription(string Symbol, List<string> UserIdList)
+        public GroupedUserSubscription(string Symbol, List<(string, string)> SubData)
         {
             this.Symbol = Symbol;
-            this.UserIdList = UserIdList;
+            this.SubData = SubData;
         }
     }
     

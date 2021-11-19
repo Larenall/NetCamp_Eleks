@@ -1,4 +1,3 @@
-using AutoMapper;
 using Application.Common;
 using Application.Common.Interfaces;
 using Infrastructure.CryptoAPI;
@@ -16,6 +15,7 @@ using WebAPI.AutoMapper;
 using Infrastructure.CryptoAPI.AutoMapper;
 using CleanArchitecture.WebUI.Filters;
 
+
 namespace WebAPI
 {
     public class Startup
@@ -30,12 +30,17 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddSignalR(opt =>
+            {
+                opt.EnableDetailedErrors = true;
+                opt.KeepAliveInterval = TimeSpan.FromMinutes(1);
+            });
             services.AddDbContext<NetCampContext>(options =>
               options.UseSqlServer(Configuration.GetConnectionString("Default")),ServiceLifetime.Singleton);
             services.AddSingleton<IUserSubscriptionRepository, UserSubscriptionRepository>();
             services.AddSingleton<IExternalCryptoAPI, LunarCrushAPI>();
-            services.AddSingleton<SimpleAssetService>();
+            services.AddScoped<SimpleAssetService>();
+            services.AddHostedService<LunarCrushHostedService>();
             services.AddControllers(options=>
                 options.Filters.Add<AssetExceptionFilter>()
             );
@@ -69,6 +74,7 @@ namespace WebAPI
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<AssetHub>("/AssetHub");
                 endpoints.MapControllers();
             });
         }

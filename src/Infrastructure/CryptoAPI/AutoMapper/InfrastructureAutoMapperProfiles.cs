@@ -15,6 +15,8 @@ namespace Infrastructure.CryptoAPI.AutoMapper
         {
             CreateMap<LunarAssetDataDTO, AssetData>();
             CreateMap<LunarAssetPriceDTO, AssetPrice>();
+            CreateMap<GroupedUserSubscription, GroupedUserSubscriptionDTO>()
+                .ForMember(dst => dst.UserIdList, src => src.MapFrom(s => s.SubData.Select(el => el.UserId).ToList()));
         }
     }
 }

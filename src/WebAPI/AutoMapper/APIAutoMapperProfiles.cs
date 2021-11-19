@@ -14,7 +14,6 @@ namespace WebAPI.AutoMapper
         {
             CreateMap<AssetPrice, AssetPriceDTO>();
             CreateMap<AssetData, AssetDataDTO>();
-            CreateMap<GroupedUserSubscription, GroupedUserSubscriptionDTO>();
         }
     }
 }

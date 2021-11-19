@@ -6,11 +6,12 @@ namespace Application.Common.Interfaces
 {
     public interface IUserSubscriptionRepository
     {
-        void AddSubscription(string ChatId, string Symbol, string Recource);
+        void AddSubscription(string UserId, string Symbol, string Recource);
         void AddSubscription(UserSubscription entityToAdd);
-        void DeleteSubscription(string ChatId, string Symbol, string Recource);
+        void DeleteSubscription(string UserId, string Symbol, string Recource);
         List<UserSubscription> GetSubscriptions();
-        List<GroupedUserSubscription> GetGroupedSubscriptionsForRecource(string Recource);
-        bool SubscriptionExists(string ChatId, string Symbol, string Recource);
+        List<GroupedUserSubscription> GetGroupedSubscriptions();
+        bool SubscriptionExists(string UserId, string Symbol, string Recource);
+        List<string> GetAllResources();
     }
 }

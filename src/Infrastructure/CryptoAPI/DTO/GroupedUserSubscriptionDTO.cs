@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebAPI.DTO
+namespace Infrastructure.CryptoAPI.DTO
 {
     public class GroupedUserSubscriptionDTO
     {
+        public GroupedUserSubscriptionDTO()
+        {
+
+        }
         public string Symbol { get; set; }
         public double Price { get; set; }
         public List<string> UserIdList { get; set; }
@@ -17,7 +21,7 @@ namespace WebAPI.DTO
             this.Price = Price;
             this.UserIdList = UserIdList;
         }
-        public GroupedUserSubscriptionDTO(string Symbol,List<string> UserIdList)
+        public GroupedUserSubscriptionDTO(string Symbol, List<string> UserIdList)
         {
             this.Symbol = Symbol;
             this.UserIdList = UserIdList;

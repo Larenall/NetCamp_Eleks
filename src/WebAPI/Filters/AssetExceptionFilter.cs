@@ -36,7 +36,7 @@ namespace CleanArchitecture.WebUI.Filters
                 exceptionHandlers[type].Invoke(context);
                 return;
             }
-            HandleUnknownException(context);
+            //HandleUnknownException(context);
         }
 
         private void HandleAssetDoesntExistException(ExceptionContext context)

@@ -5,7 +5,6 @@ using Application.Common;
 using WebAPI.DTO;
 using AutoMapper;
 
-
 namespace WebAPI.Controllers
 {
 
@@ -16,6 +15,7 @@ namespace WebAPI.Controllers
         readonly SimpleAssetService service;
 
         readonly IMapper mapper;
+
 
         public AssetsController(SimpleAssetService _service, IMapper _mapper)
         {
@@ -46,26 +46,18 @@ namespace WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("{Recourse}/{Symbol}/{UserId}")]
-        public async Task<ActionResult> UnsubUserFromUpdates(string UserId, string Symbol, string Recource)
+        [HttpDelete("{Resource}/{Symbol}/{UserId}")]
+        public async Task<ActionResult> UnsubUserFromUpdates(string UserId, string Symbol, string Resource)
         {
             if (await service.AssetExistsAsync(Symbol))
-                return service.UnsubUserFromUpdates(UserId, Symbol, Recource) ? Ok() : NotFound();
+                return service.UnsubUserFromUpdates(UserId, Symbol, Resource) ? Ok() : NotFound();
             return BadRequest();
         }
 
-        [HttpGet("{Recource}/updates")]
-        public async Task<ActionResult<List<GroupedUserSubscriptionDTO>>> GetAssetUpdatesListAsync(string Recource)
-        {
-            var subscriptions = await service.GetAssetUpdatesListAsync(Recource);
-            var subscriptionsDTO = mapper.Map<List<GroupedUserSubscriptionDTO>>(subscriptions);
-            return Ok(subscriptionsDTO);
-        }
         [HttpGet("{Symbol}/exists")]
         public async Task<ActionResult<bool>> AssetExistsAsync(string Symbol)
         {
             return Ok(await service.AssetExistsAsync(Symbol));
         }
-        
     }
 }

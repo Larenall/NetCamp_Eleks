@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Common;
 using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -48,11 +49,15 @@ namespace Infrastructure.Persistance.MsSqlData.Repository
         {
             return context.UserSubscriptions.Any(s => s.Resource == Recource && s.UserId == UserId && s.Symbol == Symbol);
         }
-        public List<GroupedUserSubscription> GetGroupedSubscriptionsForRecource(string Recource)
+        public List<GroupedUserSubscription> GetGroupedSubscriptions()
         {
-            return context.UserSubscriptions.Where(el => el.Resource == Recource).ToList()
-                .GroupBy(el => el.Symbol, el => el.UserId, (Symbol, UserId) => new GroupedUserSubscription(Symbol, UserId.ToList()))
+            return context.UserSubscriptions.ToList()
+                .GroupBy(el => el.Symbol, el => (el.UserId,el.Resource), (Symbol, subDataTuples) => new GroupedUserSubscription(Symbol, subDataTuples.ToList()))
                 .ToList();
+        }
+        public List<string> GetAllResources()
+        {
+            return context.UserSubscriptions.Select(el => el.Resource).Distinct().ToList();
         }
     }
 }
