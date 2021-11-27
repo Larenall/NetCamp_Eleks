@@ -15,7 +15,13 @@ variables:
 steps:
 - task: DotNetCoreCLI@2
   inputs:
+    command: 'restore'
+    feedsToUse: 'config'
+  displayName: 'dotnet restore $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  inputs:
     command: 'test'
+  displayName: 'dotnet test $(buildConfiguration)'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
